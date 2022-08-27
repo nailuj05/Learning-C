@@ -1,21 +1,21 @@
 #include <stdio.h>
 
 // Declaration
-void fib();
+void test();
 void sayName(char[]);
 int add(int, int);
 
 // Main method (entry point)
 int main()
 {
-    fib();
+    test();
     sayName("Max");
     printf("%i", add(3, 7));
     return 0;
 }
 
 // Definition
-void fib()
+void test()
 {
     printf("Hello there\n");
 }
