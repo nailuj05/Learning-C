@@ -10,8 +10,7 @@ struct Node
 
 struct Node *start = NULL;
 
-void append(int);
-struct Node *getNode(int);
+void push(int);
 void printList();
 
 int main()
@@ -25,7 +24,7 @@ int main()
     return 0;
 }
 
-void append(int item)
+void push(int item)
 {
     struct Node *node = (struct Node *)malloc(sizeof(struct Node));
     node->item = item;
