@@ -15,9 +15,9 @@ void printList();
 
 int main()
 {
-    append(10);
-    append(24);
-    append(42);
+    push(10);
+    push(24);
+    push(42);
 
     printList();
 
