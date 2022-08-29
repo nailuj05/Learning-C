@@ -18,6 +18,17 @@ struct Node *push(struct Node *startPtr, int item)
     return startPtr;
 }
 
+struct Node *getNode(struct Node *list, int index)
+{
+    struct Node *ptr = list;
+
+    for (int i = 0; i < index; i++)
+    {
+        ptr = ptr->next;
+    }
+    return ptr;
+}
+
 void printList(struct Node *startPtr)
 {
     struct Node *ptr = startPtr;
