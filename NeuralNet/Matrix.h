@@ -1,37 +1,43 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef struct Size
+typedef struct size
 {
     int rows;
     int columns;
-} size;
+} Size;
 
-void printMatrix(int *matrix, size s)
+typedef struct matrix
+{
+    float *content;
+    size size;
+} Matrix;
+
+void printMatrix(float *matrix, Size s)
 {
     for (int r = 0; r < s.rows; r++)
     {
         for (int c = 0; c < s.columns; c++)
         {
-            printf("[%i|%d]\t", r * s.rows + c, *((matrix + r * s.rows) + c));
+            printf("[%i|%f]\t", r * s.rows + c, *((matrix + r * s.rows) + c));
         }
         printf("\n");
     }
 }
 
-int *fillRandom(int *matrix, size s)
+float *fillRandom(float *matrix, Size s)
 {
     for (int r = 0; r < s.rows; r++)
     {
         for (int c = 0; c < s.columns; c++)
         {
-            *((matrix + r * s.rows) + c) = rand() % 100;
+            *((matrix + r * s.rows) + c) = (float)(rand() % 10000) / 10000.0f;
         }
     }
     return matrix;
 }
 
-int *createMatrix(size s)
+float *createMatrix(Size s)
 {
-    return (int *)calloc(s.rows * s.columns, sizeof(int));
+    return (float *)calloc(s.rows * s.columns, sizeof(float));
 }

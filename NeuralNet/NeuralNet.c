@@ -2,11 +2,11 @@
 #include <stdlib.h>
 #include "Matrix.h"
 
-const size s = {3, 4};
+const Size s = {3, 4};
 
 int main()
 {
-    int *matrix = createMatrix(s);
+    Matrix m = {createMatrix(s), s};
 
     matrix = fillRandom(matrix, s);
 
