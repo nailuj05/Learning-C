@@ -10,7 +10,7 @@ typedef struct size
 typedef struct matrix
 {
     float *content;
-    size size;
+    Size size;
 } Matrix;
 
 void printMatrix(float *matrix, Size s)
