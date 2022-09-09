@@ -8,9 +8,9 @@ int main()
 {
     Matrix m = {createMatrix(s), s};
 
-    m.content = fillRandom(m.content, s);
+    m = *fillRandom(&m);
 
-    printMatrix(m.content, s);
+    printMatrix(&m);
 
     return 0;
 }

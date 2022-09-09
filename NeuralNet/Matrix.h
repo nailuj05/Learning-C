@@ -13,25 +13,25 @@ typedef struct matrix
     Size size;
 } Matrix;
 
-void printMatrix(float *matrix, Size s)
+void printMatrix(Matrix *matrix)
 {
-    for (int r = 0; r < s.rows; r++)
+    for (int r = 0; r < matrix->size.rows; r++)
     {
-        for (int c = 0; c < s.columns; c++)
+        for (int c = 0; c < matrix->size.columns; c++)
         {
-            printf("[%i|%f]\t", r * s.rows + c, *((matrix + r * s.rows) + c));
+            printf("[%i|%f]\t", r * matrix->size.rows + c, *((matrix->content + r * matrix->size.rows) + c));
         }
         printf("\n");
     }
 }
 
-float *fillRandom(float *matrix, Size s)
+Matrix *fillRandom(Matrix *matrix)
 {
-    for (int r = 0; r < s.rows; r++)
+    for (int r = 0; r < matrix->size.rows; r++)
     {
-        for (int c = 0; c < s.columns; c++)
+        for (int c = 0; c < matrix->size.columns; c++)
         {
-            *((matrix + r * s.rows) + c) = (float)(rand() % 10000) / 10000.0f;
+            *((matrix->content + r * matrix->size.rows) + c) = (float)(rand() % 10000) / 10000.0f;
         }
     }
     return matrix;
