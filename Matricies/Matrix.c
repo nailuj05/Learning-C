@@ -6,7 +6,7 @@ const Size s = {3, 4};
 
 int main()
 {
-    Matrix m = {createMatrix(s), s};
+    Matrix m = *createMatrix(s);
 
     m = *fillRandom(&m);
 

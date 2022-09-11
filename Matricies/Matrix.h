@@ -37,7 +37,11 @@ Matrix *fillRandom(Matrix *matrix)
     return matrix;
 }
 
-float *createMatrix(Size s)
+Matrix *createMatrix(Size s)
 {
-    return (float *)calloc(s.rows * s.columns, sizeof(float));
+    Matrix *m = malloc(sizeof(Matrix));
+    m->content = (float *)calloc(s.rows * s.columns, sizeof(float));
+    m->size = s;
+
+    return m;
 }
