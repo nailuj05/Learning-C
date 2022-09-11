@@ -1,3 +1,11 @@
 {
-    "C_Cpp.errorSquiggles": "Disabled"
+    "C_Cpp.errorSquiggles": "Disabled",
+    "files.associations": {
+        "algorithm": "c",
+        "bitset": "c",
+        "chrono": "c",
+        "xhash": "c",
+        "xtree": "c",
+        "xutility": "c"
+    }
 }
