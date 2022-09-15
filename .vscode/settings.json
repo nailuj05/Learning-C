@@ -7,6 +7,7 @@
         "xhash": "c",
         "xtree": "c",
         "xutility": "c",
-        "random": "c"
+        "random": "c",
+        "limits": "c"
     }
 }
