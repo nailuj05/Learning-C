@@ -8,6 +8,9 @@
         "xtree": "c",
         "xutility": "c",
         "random": "c",
-        "limits": "c"
+        "limits": "c",
+        "system_error": "c",
+        "typeindex": "c",
+        "xlocale": "c"
     }
 }
