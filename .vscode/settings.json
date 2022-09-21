@@ -11,6 +11,8 @@
         "limits": "c",
         "system_error": "c",
         "typeindex": "c",
-        "xlocale": "c"
+        "xlocale": "c",
+        "stdio.h": "c",
+        "conio.h": "c"
     }
 }
