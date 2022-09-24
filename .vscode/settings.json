@@ -13,6 +13,7 @@
         "typeindex": "c",
         "xlocale": "c",
         "stdio.h": "c",
-        "conio.h": "c"
+        "conio.h": "c",
+        "valarray": "c"
     }
 }

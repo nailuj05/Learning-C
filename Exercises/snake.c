@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <conio.h>
 #include <windows.h>
+#include <stdbool.h>
+#include <time.h>
 
 typedef struct Vector
 {
@@ -9,19 +11,35 @@ typedef struct Vector
     int y;
 } Vec2;
 
+typedef struct TailPart
+{
+    Vec2 pos;
+    struct TailPart *next;
+} Tail;
+
+Tail *tails;
+
 Vec2 c_pos = {0, 0};
 Vec2 moveDir = {0, 0};
 Vec2 fruit;
 Vec2 head = {10, 5};
+Vec2 lastHead;
 
-int h = 10;
 int w = 20;
+int h = 10;
 char esc;
 
+bool gameOver;
+int score;
+
 void draw();
+void logic();
+void addTail();
+void updateTail();
+bool isTail(Vec2);
 void input();
 Vec2 randVec(int, int);
-int compareVec(Vec2, Vec2);
+bool compareVec(Vec2, Vec2);
 void addVec(Vec2 *, Vec2 *);
 
 int main()
@@ -30,21 +48,21 @@ int main()
     time_t t;
     srand((unsigned)time(&t));
 
-    // Vec2 test = randVec(10, 10);
-    // printf("X: %i, Y: %i \n", test.x, test.y);
-    // return 0;
+    fruit = randVec(w, h);
 
     draw();
 
-    while (esc != 27)
+    while (esc != 27 && !gameOver)
     {
-        // Game Loop here
         input();
-        addVec(&head, &moveDir);
+        logic();
         draw();
+        updateTail();
 
         Sleep(150);
     }
+
+    printf("\n \tGAME OVER\n");
 
     return 0;
 }
@@ -59,7 +77,11 @@ void draw()
             c_pos.y = i;
             c_pos.x = j;
 
-            if (compareVec(c_pos, head) == 1)
+            if (compareVec(c_pos, head))
+                printf("W");
+            else if (compareVec(c_pos, fruit))
+                printf("F");
+            else if (isTail(c_pos))
                 printf("+");
             else if (i % (h) == 0 || j % (w) == 0)
                 printf("#");
@@ -69,12 +91,74 @@ void draw()
 
         printf("\n");
     }
+    printf("Score: %i\n", score);
+}
+
+void logic()
+{
+    lastHead = head;
+    addVec(&head, &moveDir);
+
+    Tail *ptr = tails;
+
+    while (ptr != NULL)
+    {
+        if (compareVec(ptr->pos, head))
+        {
+            gameOver = true;
+            return;
+        }
+
+        ptr = ptr->next;
+    }
+
+    if (compareVec(fruit, head))
+    {
+        fruit = randVec(w, h);
+        addTail();
+        score++;
+    }
+}
+
+void addTail()
+{
+    Tail *newTail = (Tail *)malloc(sizeof(Tail));
+    newTail->pos = lastHead;
+    newTail->next = tails;
+    tails = newTail;
+}
+
+void updateTail()
+{
+    Tail *ptr = tails;
+
+    Vec2 prevPos = head;
+    Vec2 bufferPos;
+
+    while (ptr != NULL)
+    {
+        bufferPos = ptr->pos;
+        ptr->pos = prevPos;
+        prevPos = bufferPos;
+        // printf("(%i|%i)\n", ptr->pos.x, ptr->pos.y);
+        ptr = ptr->next;
+    }
+}
+
+bool isTail(Vec2 pos)
+{
+    Tail *ptr = tails;
+
+    while (ptr != NULL)
+    {
+        if (compareVec(pos, ptr->pos))
+            return true;
+        ptr = ptr->next;
+    }
 }
 
 void input()
 {
-    // moveDir.x = moveDir.y = 0;
-
     if (kbhit())
     {
         esc = getch();
@@ -112,11 +196,11 @@ Vec2 randVec(int maxX, int maxY)
     return v;
 }
 
-int compareVec(Vec2 a, Vec2 b)
+bool compareVec(Vec2 a, Vec2 b)
 {
     if (a.x == b.x && a.y == b.y)
-        return 1;
-    return 0;
+        return true;
+    return false;
 }
 
 void addVec(Vec2 *a, Vec2 *b)
