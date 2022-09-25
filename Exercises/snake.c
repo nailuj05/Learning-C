@@ -5,6 +5,15 @@
 #include <stdbool.h>
 #include <time.h>
 
+#define w 20
+#define h 10
+
+#define WALL "#"
+#define SPACE " "
+#define HEAD "W"
+#define BODY "+"
+#define FRUIT "F"
+
 typedef struct Vector
 {
     int x;
@@ -25,8 +34,6 @@ Vec2 fruit;
 Vec2 head = {10, 5};
 Vec2 lastHead;
 
-int w = 20;
-int h = 10;
 char esc;
 
 bool gameOver;
@@ -34,6 +41,7 @@ int score;
 
 void draw();
 void logic();
+Vec2 fruitPos();
 void addTail();
 void updateTail();
 bool isTail(Vec2);
@@ -48,7 +56,7 @@ int main()
     time_t t;
     srand((unsigned)time(&t));
 
-    fruit = randVec(w, h);
+    fruit = fruitPos();
 
     draw();
 
@@ -62,7 +70,10 @@ int main()
         Sleep(150);
     }
 
-    printf("\n \tGAME OVER\n");
+    printf("\e[1;1H\e[2J");
+    printf("\n");
+    printf("\tGAME OVER\n");
+    printf("Score: %i", score);
 
     return 0;
 }
@@ -78,15 +89,15 @@ void draw()
             c_pos.x = j;
 
             if (compareVec(c_pos, head))
-                printf("W");
+                printf(HEAD);
             else if (compareVec(c_pos, fruit))
-                printf("F");
+                printf(FRUIT);
             else if (isTail(c_pos))
-                printf("+");
+                printf(BODY);
             else if (i % (h) == 0 || j % (w) == 0)
-                printf("#");
+                printf(WALL);
             else
-                printf(" ");
+                printf(SPACE);
         }
 
         printf("\n");
@@ -96,9 +107,11 @@ void draw()
 
 void logic()
 {
+    // Move head
     lastHead = head;
     addVec(&head, &moveDir);
 
+    // Check Tail Collision
     Tail *ptr = tails;
 
     while (ptr != NULL)
@@ -112,12 +125,28 @@ void logic()
         ptr = ptr->next;
     }
 
+    // Check Wall Collision
+    if (head.y % (h) == 0 || head.x % (w) == 0)
+    {
+        gameOver = true;
+        return;
+    }
+
+    // Check fruit collision
     if (compareVec(fruit, head))
     {
-        fruit = randVec(w, h);
+        fruit = fruitPos();
         addTail();
         score++;
     }
+}
+
+Vec2 fruitPos()
+{
+    Vec2 one = {1, 1};
+    Vec2 rand = randVec(w - 2, h - 2);
+    addVec(&rand, &one);
+    return rand;
 }
 
 void addTail()
