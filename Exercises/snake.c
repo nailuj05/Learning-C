@@ -75,12 +75,17 @@ int main()
     printf("\tGAME OVER\n");
     printf("Score: %i", score);
 
+    puts("Press <enter> to quit:");
+    getchar();
+
     return 0;
 }
 
 void draw()
 {
-    printf("\e[1;1H\e[2J");
+    // printf("\e[1;1H\e[2J");
+    system("cls");
+
     for (int i = 0; i <= h; i++)
     {
         for (int j = 0; j <= w; j++)
