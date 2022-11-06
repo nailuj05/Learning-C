@@ -24,7 +24,7 @@ int main()
 template <size_t len>
 void Save(Karte (&karten)[len], string path)
 {
-    ofstream wFile("test.txt");
+    ofstream wFile(path);
 
     for (Karte k : karten)
     {
